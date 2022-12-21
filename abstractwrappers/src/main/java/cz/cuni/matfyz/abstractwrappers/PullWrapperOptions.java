@@ -31,6 +31,8 @@ public class PullWrapperOptions {
         return limit != null;
     }
 
+    public String query = null;
+
     public static class Builder {
 
         private PullWrapperOptions instance = new PullWrapperOptions();
@@ -42,6 +44,11 @@ public class PullWrapperOptions {
 
         public Builder limit(Integer limit) {
             instance.limit = limit;
+            return this;
+        }
+
+        public Builder query(String query) {
+            instance.query = query;
             return this;
         }
 

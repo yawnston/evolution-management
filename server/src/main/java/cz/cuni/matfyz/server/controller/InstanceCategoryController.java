@@ -3,6 +3,7 @@ package cz.cuni.matfyz.server.controller;
 import cz.cuni.matfyz.core.schema.Key;
 import cz.cuni.matfyz.server.service.InstanceCategoryService;
 import cz.cuni.matfyz.server.view.InstanceObjectView;
+import cz.cuni.matfyz.server.view.InstanceMorphismView;
 
 import java.util.List;
 import javax.servlet.http.HttpSession;
@@ -43,4 +44,13 @@ public class InstanceCategoryController {
         return new InstanceObjectView(object);
     }
 
+    @GetMapping("instances/{schemaId}/morphism/{signature}")
+    public InstanceMorphismView getInstanceMorphism(HttpSession session, @PathVariable Integer schemaId, @PathVariable Integer signature) {
+        var morphism = service.findMorphism(session, schemaId, signature);
+
+        if (morphism == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        
+        return new InstanceMorphismView(morphism);
+    }
 }

@@ -107,7 +107,7 @@ class ServerApplicationTests {
 
         var process = new DatabaseToInstance();
         process.setLimit(records);
-        process.input(mapping, instance, pullWrapper);
+        process.input(mapping, instance, pullWrapper, null);
 
         var result = process.run();
 

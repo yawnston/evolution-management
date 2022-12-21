@@ -17,6 +17,7 @@ public class Job extends Entity implements JSONConvertible {
     public String name;
     public Type type;
     public Status status;
+    public String query;
 
     /*
     public Job(

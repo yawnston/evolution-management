@@ -60,6 +60,18 @@ public class JobController {
         return service.start(job, store);
     }
 
+    @PostMapping("/jobs/{id}/startWithQuery")
+    public Job startJobWithQuery(@PathVariable int id, HttpSession session, @RequestBody String query) {
+        Job job = service.find(id);
+        if (job == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Job " + id + " not foud.");
+        
+        job.query = query.substring(1, query.length() - 1);
+
+        var store = UserStore.fromSession(session);
+        return service.start(job, store);
+    }
+
     @DeleteMapping("/jobs/{id}")
     public void deleteJob(@PathVariable Integer id) {
         boolean result = service.delete(id);

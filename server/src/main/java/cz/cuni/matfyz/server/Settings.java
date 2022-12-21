@@ -19,7 +19,7 @@ class Settings {
                 registry.addMapping("/**")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                     // 3000 is the default port of the vite development server.
-                    .allowedOrigins("http://localhost:3000", "http://localhost")
+                    .allowedOrigins("http://localhost:3000", "http://localhost", "http://localhost:27400")
                     .allowCredentials(true);
             }
         };

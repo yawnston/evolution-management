@@ -23,7 +23,7 @@ import org.json.JSONObject;
  */
 public class IdWithValues implements Serializable, Comparable<IdWithValues>, JSONConvertible {
 
-    private final Map<Signature, String> tuples;
+    public final Map<Signature, String> tuples;
 
     public boolean hasSignature(Signature signature) {
         return tuples.containsKey(signature);

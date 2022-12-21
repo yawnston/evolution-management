@@ -24,8 +24,8 @@ import org.json.JSONObject;
  */
 public class Signature implements Serializable, Comparable<Signature>, IContext, JSONConvertible {
 
-    private final int[] ids;
-    private final boolean isNull;
+    public final int[] ids;
+    public final boolean isNull;
     
     private Signature(int[] ids, boolean isNull) {
         this.ids = isNull ? new int[] {} : ids;

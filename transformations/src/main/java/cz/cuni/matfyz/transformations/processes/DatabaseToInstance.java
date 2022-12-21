@@ -25,11 +25,13 @@ public class DatabaseToInstance {
     private Mapping mapping;
     private InstanceCategory currentInstance;
     private AbstractPullWrapper pullWrapper;
+    private String query;
 
-    public void input(Mapping mapping, InstanceCategory currentInstance, AbstractPullWrapper pullWrapper) {
+    public void input(Mapping mapping, InstanceCategory currentInstance, AbstractPullWrapper pullWrapper, String query) {
         this.mapping = mapping;
         this.currentInstance = currentInstance;
         this.pullWrapper = pullWrapper;
+        this.query = query;
     }
 
     private Integer limit = null;
@@ -44,7 +46,7 @@ public class DatabaseToInstance {
 
         ForestOfRecords forest;
         try {
-            forest = pullWrapper.pullForest(mapping.accessPath(), new PullWrapperOptions.Builder().limit(limit).buildWithKindName(mapping.kindName()));
+            forest = pullWrapper.pullForest(mapping.accessPath(), new PullWrapperOptions.Builder().limit(limit).query(query).buildWithKindName(mapping.kindName()));
         }
         catch (Exception exception) {
             LOGGER.error("Pull forest failed.", exception);

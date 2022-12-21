@@ -32,6 +32,11 @@ public class PostgreSQLPullWrapper implements AbstractPullWrapper {
     }
 
     private PreparedStatement prepareStatement(Connection connection, PullWrapperOptions options) throws SQLException {
+        LOGGER.error("Wrapper got query: ", options.query);
+        if (options.query != null) {
+            return connection.prepareStatement(options.query);
+        }
+
         // Prevent SQL injection.
         if (!options.getKindName().matches("[_a-zA-Z0-9\\.]+"))
             throw new SQLException("Invalid table name.");
@@ -49,6 +54,7 @@ public class PostgreSQLPullWrapper implements AbstractPullWrapper {
         return connection.prepareStatement(command);
     }
 
+    // TODO: tady overriduju tuhle metodu, kde options jsou jine - tam se da muj query, potom pridam do API nejakou metodu ktera dovnitr ty queries propasuje
     @Override
     public ForestOfRecords pullForest(ComplexProperty path, PullWrapperOptions options) throws Exception {
         try (

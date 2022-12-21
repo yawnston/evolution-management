@@ -138,7 +138,7 @@ public class AsyncJobService {
         AbstractPullWrapper pullWrapper = wrapperService.getPullWraper(database);
 
         var process = new DatabaseToInstance();
-        process.input(mapping, instance, pullWrapper);
+        process.input(mapping, instance, pullWrapper, job.query);
 
         var result = process.run();
         //Thread.sleep(JOB_DELAY_IN_SECONDS * 1000);

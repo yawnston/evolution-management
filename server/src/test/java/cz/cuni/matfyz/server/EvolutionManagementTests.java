@@ -86,7 +86,7 @@ public class EvolutionManagementTests {
 
                 var process = new DatabaseToInstance();
                 process.setLimit(batch * 1000);
-                process.input(mapping, null, pullWrapper);
+                process.input(mapping, null, pullWrapper, null);
 
                 var category = process.run().data;
 

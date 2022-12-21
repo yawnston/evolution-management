@@ -7,5 +7,6 @@ package cz.cuni.matfyz.server.view;
 public record NewJobView(
     int mappingId,
     String name,
-    String type
+    String type,
+    String query
 ) {}

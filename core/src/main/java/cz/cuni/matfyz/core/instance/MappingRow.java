@@ -9,8 +9,8 @@ import java.io.Serializable;
  */
 public class MappingRow implements Serializable, Comparable<MappingRow> {
 
-    private final DomainRow domainRow;
-    private final DomainRow codomainRow;
+    public final DomainRow domainRow;
+    public final DomainRow codomainRow;
     
     public DomainRow domainRow() {
         return domainRow;
