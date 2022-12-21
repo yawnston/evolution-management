@@ -17,14 +17,25 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.List;
 
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 /**
  * @author jachymb.bartik
  */
 public class MongoDBPullWrapper implements AbstractPullWrapper {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MongoDBPullWrapper.class);
 
     private DatabaseProvider databaseProvider;
     
@@ -33,6 +44,30 @@ public class MongoDBPullWrapper implements AbstractPullWrapper {
     }
 
     private Iterator<Document> getDocumentIterator(PullWrapperOptions options) {
+        if (options.query != null) {
+            LOGGER.error("MongoDB command: " + options.query);
+            Pattern pattern = Pattern.compile("db\\.(.*)\\.aggregate\\((.*)\\)");
+            Matcher matcher = pattern.matcher(options.query);
+            matcher.find();
+            String collection = matcher.group(1);
+            String aggregationCommands = matcher.group(2).replaceAll("\\\\\"", "\"");
+            LOGGER.error("MongoDB collection: " + collection);
+            LOGGER.error("MongoDB commands: " + aggregationCommands);
+
+            try {
+                var jsonArray = new JSONArray(aggregationCommands);
+                List<Document> list = new ArrayList<>();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    Object item = jsonArray.get(i);
+                    Document document = Document.parse(item.toString());
+                    list.add(document);
+                }
+
+                return databaseProvider.getDatabase().getCollection(collection).aggregate(list).iterator();
+            } catch (JSONException e) {
+                LOGGER.error("JSON Exception: ", e);
+            }
+        }
         String kindName = options.getKindName();
         var database = databaseProvider.getDatabase();
         var find = database.getCollection(kindName).find();
