@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.TreeSet;
 import java.io.Serializable;
 import java.util.SortedSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +23,10 @@ import org.slf4j.LoggerFactory;
  */
 public class DomainRowView {
     public IdWithValuesView superId;
+    public Set<Integer> technicalIds;
 
     public DomainRowView(DomainRow domainRow) {
         this.superId = new IdWithValuesView(domainRow.superId);
+        this.technicalIds = domainRow.technicalIds;
     }
 }
